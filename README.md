@@ -1,6 +1,24 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# Dijkstra Visualizer on React Native
 
-# Getting Started
+## Project Information
+This app is a Dijkstra's Algorithm Visualizer written in TypeScript and using React Native. It utilizes an adjacency matrix to construct a graph on a grid, which allows users to interact with each node intuitively. The app will find the shortest path between selected nodes and can even search paths around barriers. 
+
+## Use
+* To begin, click on a square in the grid
+* The first square selected is the start node
+* The second square selected is the end node
+* Any other squares selected will be barriers
+* To run the algorithm press "Create Path"
+* To Reset click "Reset"
+
+  
+  
+
+
+
+## Build Instructions
+
+This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
 
 >**Note**: Make sure you have completed the [React Native - Environment Setup](https://reactnative.dev/docs/environment-setup) instructions till "Creating a new application" step, before proceeding.
 

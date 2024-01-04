@@ -148,8 +148,12 @@ function App(): React.JSX.Element {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Button title="Reset" onPress={ () => { resetGrid(); }}/>
-      <Button title="Create Path" onPress={ () => { runSimulation(); }}/>
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between', padding: 10, width: '100%'}}>
+        <Button title="Reset" onPress={resetGrid} />
+        <View style={{ marginLeft: 'auto' }}>
+          <Button title="Create Path" onPress={runSimulation} />
+        </View>
+      </View>
       <View style={styles.gridContainer}>
         {grid.map((row, rowIndex) => (
           row.map((_, colIndex) => (

@@ -11,9 +11,15 @@ This app is a Dijkstra's Algorithm Visualizer written in TypeScript and using Re
 * To run the algorithm press "Create Path"
 * To Reset click "Reset"
 
-  
-  
+&nbsp; &nbsp;
 
+<p align="middle">
+  <img width="355" alt="Sim Setup" src="https://github.com/gavin-robey/Dijkstra-Visualizer/assets/106276626/514de237-6be9-49b0-9e69-8850eb092c8c">
+  <span>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;</span>
+  <img width="355" alt="Sim" src="https://github.com/gavin-robey/Dijkstra-Visualizer/assets/106276626/748a579b-926b-4a86-af91-8f0e0962e217">
+</p>
+
+&nbsp; &nbsp;
 
 
 ## Build Instructions

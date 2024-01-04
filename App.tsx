@@ -1,8 +1,10 @@
-import React, { useState, useRef } from 'react' 
-import Graph from './Graph'
-import CreateAdjacencyMatrix from './CreateAdjacencyMatrix';
-import Box from './Box';
+import React, { useState } from 'react' ;
 import { View, Button, SafeAreaView, StyleSheet } from 'react-native';
+
+import CreateAdjacencyMatrix from './CreateAdjacencyMatrix';
+import Graph from './Graph';
+import Box from './Box';
+import styles from './style.js';
 
 
 function App(): React.JSX.Element {
@@ -27,6 +29,12 @@ function App(): React.JSX.Element {
     setBarriers((prevBarriers) => [...prevBarriers, newBarrier]);
   };
 
+  const removeBarrier = (barrier : number) => {
+    const newArray = barriers.filter(item => item !== barrier);
+    setBarriers([]);
+    setBarriers(newArray);
+  }
+
   const handleBoxClick = (row: number, col: number) => { 
     let node = ((row * colSize) + (col + 1)) - 1;
 
@@ -50,10 +58,14 @@ function App(): React.JSX.Element {
       });
     } else {
       // Any subsequent clicks add barriers
-      addBarrier(node);
       setGrid((prevGrid) => {
           const newGrid = [...prevGrid];
           newGrid[row][col] = { ...newGrid[row][col], isBarrier: !newGrid[row][col].isBarrier, isStart: false, isEnd: false };
+          if(newGrid[row][col].isBarrier){
+            addBarrier(node);
+          }else{
+            removeBarrier(node);
+          }
           return newGrid;
       });
     }
@@ -75,50 +87,69 @@ function App(): React.JSX.Element {
     });
   };
 
+  const resetGrid = () => {
+    setStart(-1); // resets the start node 
+    setEnd(-1); // resets the end node
+    setBarriers([]); // resets all barriers
+    setStartEndInit(false); // the start and end node are no longer initialized
+    setGrid((prevGrid) => {
+      const newGrid = prevGrid.map((row) => {
+        return row.map((cell) => {
+          // Set specific properties to false for each cell
+          return {
+            ...cell,
+            isBarrier: false,
+            isStart: false,
+            isEnd: false,
+            isPath: false,
+            onVisited: false,
+          };
+        });
+      });
+      return newGrid;
+    }); 
+  }
+
+  const runSimulation = () => {
+    if(startEndInit){
+      const numNodes = colSize * rowSize;
+      const adjacencyMatrix: number[][] = CreateAdjacencyMatrix(numNodes, rowSize, colSize, barriers);
+      const graph = new Graph(numNodes, adjacencyMatrix, colSize);
+      const visitedNodes = graph.getVisitedNodes()
+      const shortestPath = graph.findShortestPath(start, end);
+
+      var stopLoop = false;
+      var count = 0;
+      visitedNodes.forEach(node => {
+        setTimeout(() => {
+          count++;
+          if ((node.node + 1) === end) { 
+            stopLoop = true;
+            animateShortestPath();
+          } 
+
+          if (!stopLoop) { updateVisited(node.row, node.col); }
+        }, count);
+      }); 
+      
+      let counter = 0;
+      const animateShortestPath = () => {
+        if (counter < shortestPath.length) {
+          const node = shortestPath[counter];
+          setTimeout(() => {
+            updatePath(Math.floor((node - 1) / colSize), (node - 1) % colSize);
+            counter++;
+            animateShortestPath();
+          }, 10);
+        }
+      };
+    }
+  }
+
   return (
     <SafeAreaView style={styles.container}>
-      <Button 
-      title="create path" 
-      onPress={
-        () => {
-          if(startEndInit){
-            const numNodes = colSize * rowSize;
-            const adjacencyMatrix: number[][] = CreateAdjacencyMatrix(numNodes, rowSize, colSize, barriers);
-            const graph = new Graph(numNodes, adjacencyMatrix, colSize);
-
-            const startNode = start; // get from user input
-            const endNode = end; // get from user input
-
-            const visitedNodes = graph.getVisitedNodes()
-            const shortestPath = graph.findShortestPath(startNode, endNode);
-
-            var stopLoop = false;
-            var count = 0;
-            visitedNodes.forEach(node => {
-              setTimeout(() => {
-                count++;
-                if ((node.node + 1) === endNode) { 
-                  stopLoop = true;
-                  animateShortestPath();
-                } 
-
-                if (!stopLoop) { updateVisited(node.row, node.col); }
-              }, count);
-            }); 
-            
-            let counter = 0;
-            const animateShortestPath = () => {
-              if (counter < shortestPath.length) {
-                const node = shortestPath[counter];
-                setTimeout(() => {
-                  updatePath(Math.floor((node - 1) / colSize), (node - 1) % colSize);
-                  counter++;
-                  animateShortestPath();
-                }, 10);
-              }
-            };
-          }
-        }}/>
+      <Button title="Reset" onPress={ () => { resetGrid(); }}/>
+      <Button title="Create Path" onPress={ () => { runSimulation(); }}/>
       <View style={styles.gridContainer}>
         {grid.map((row, rowIndex) => (
           row.map((_, colIndex) => (
@@ -139,26 +170,5 @@ function App(): React.JSX.Element {
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 10,
-    backgroundColor: "rgb(234, 234, 234)",
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  title : {
-    fontSize: 40,
-    margin: 30,
-  },
-  gridContainer: {
-    width: "100%",
-    justifyContent: 'center',
-    alignItems: 'center',
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-  },
-});
 
 export default App;

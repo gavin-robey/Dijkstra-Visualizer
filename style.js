@@ -1,47 +1,24 @@
 import { StyleSheet } from 'react-native'
 
-
 const styles = StyleSheet.create({
-    container:{
+    container: {
         flex: 1,
-        backgroundColor: "rgba(223, 224, 225)",
+        padding: 10,
+        backgroundColor: "rgb(234, 234, 234)",
         justifyContent: 'center',
         alignItems: 'center',
     },
-    text : {
-        fontSize: 50,
-        color: 'black',
+    title : {
+        fontSize: 40,
+        margin: 30,
     },
-    horizontal : {
-        padding : 10,
-        flexDirection: 'row',
-        backgroundColor: "white",
-        justifyContent: 'space-evenly', 
+    gridContainer: {
+        width: "100%",
+        justifyContent: 'center',
         alignItems: 'center',
-        width: '50%'
+        flexDirection: 'row',
+        flexWrap: 'wrap',
     },
-    spacer : {
-        height: 50
-    }, 
-    card: {
-        backgroundColor: 'white',
-        width : "95%",
-        borderRadius: 10,
-        padding: 16,
-        margin: 8,
-        elevation: 10,
-    },
-    index: {
-        position: 'absolute',
-        top: 8,
-        right: 8,
-        color: 'black',
-        padding: 4,
-        borderRadius: 4,
-    },
-    scroller: {
-        width : "100%"
-    },
-})
+});
 
 export default styles

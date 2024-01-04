@@ -20,7 +20,7 @@ const Box: React.FC<BoxProps> = ({
         isEnd,
         onClick 
     }) => {
-    const backgroundColor = isStart ? 'green' : isEnd ? 'red' : isBarrier ? 'black' : onVisited ? 'lightblue' : onPathCreation ? '#3BB2E2' : '#fff';
+    const backgroundColor = isStart ? '#a9e8cf' : isEnd ? '#FE998D' : isBarrier ? 'black' : onVisited ? 'lightblue' : onPathCreation ? '#3BB2E2' : '#fff';
 
     const boxStyle: ViewStyle = [
         styles.box,

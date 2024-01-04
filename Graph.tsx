@@ -48,6 +48,10 @@ class Graph {
         return this.maxDistance;
     }
 
+    isPath() : Boolean{
+        return false;
+    }
+
     private minDistance(distance: number[], visited: boolean[]): number {
         let min = Number.MAX_SAFE_INTEGER;
         let minIndex = -1;
